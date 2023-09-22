@@ -1,15 +1,12 @@
 
-
+import Users from './users/components/Users'
 import './App.css'
 
 function App() {
  
   return (
     <>
-      <div>
-        Noor
-        </div>
-      
+    <Users/>
     </>
   )
 }
