@@ -1,4 +1,4 @@
-
+import { Routes, Route} from 'react-router-dom'
 import Users from './users/components/Users'
 import './App.css'
 
@@ -6,7 +6,10 @@ function App() {
  
   return (
     <>
-    <Users/>
+    <Routes>
+      <Route path="/" element={<Users/>} exact/>
+
+    </Routes>
     </>
   )
 }
