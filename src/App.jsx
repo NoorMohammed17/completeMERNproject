@@ -1,6 +1,7 @@
-import { Routes, Route} from 'react-router-dom'
-import Users from './users/components/Users'
+import { Routes, Route,  } from 'react-router-dom'
+import Users from './users/pages/Users'
 import './App.css'
+import NewPlace from './places/components/NewPlace'
 
 function App() {
  
@@ -8,6 +9,8 @@ function App() {
     <>
     <Routes>
       <Route path="/" element={<Users/>} exact/>
+      <Route path="/places/new" element={<NewPlace/>} exact/>
+      
 
     </Routes>
     </>

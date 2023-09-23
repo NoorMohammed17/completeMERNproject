@@ -16,5 +16,8 @@ module.exports = {
       'warn',
       { allowConstantExport: true },
     ],
+    "rules": {
+      "react/prop-types": "off" //React eslint error missing in props validation
+    }
   },
 }
