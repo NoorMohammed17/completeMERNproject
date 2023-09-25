@@ -1,37 +1,51 @@
-//import React from 'react';
-//import { Link } from "react-router-dom"
-import Card from "../../shared/components/UIElements/Card/Card";
-import Button from "../../shared/components/FormElements/Button/Button";
-import "./PlaceItem.css"
+import React, { useState } from 'react';
+import Map from '../../shared/components/UIElements/Map';
+import Card from '../../shared/components/UIElements/Card/Card';
+import Button from '../../shared/components/FormElements/Button/Button';
+import Modal from '../../shared/components/UIElements/Modal';
 
-const PlaceItem = (props) => {
-    return (
-        <li className="place-item">
+import './PlaceItem.css';
 
-            <Card className="place-item__content">
+const PlaceItem = props => {
+  const [showMap, setShowMap] = useState(false);
 
-                <div className="place-item__image">
-                    <img src={props.image} alt={props.title} />
-                </div>
-                <div className="place-item__info">
-                    <h2>{props.title}</h2>
-                    <h3>{props.address}</h3>
-                    <p>{props.description}</p>
-                </div>
-                <div className="place-item__actions">
-                    <Button inverse>VIEW ON MAP</Button>
-                    <Button to={`/places/${props.id}`}>
-                        EDIT
-                    </Button>
-                    <Button danger>
-                        DELETE
-                    </Button>
-                </div>
+  const openMapHandler = () => setShowMap(true);
 
-            </Card>
+  const closeMapHandler = () => setShowMap(false);
 
-        </li>
-    )
-}
+  return (
+    <React.Fragment>
+      <Modal
+        show={showMap}
+        onCancel={closeMapHandler}
+        header={props.address}
+        contentClass="place-item__modal-content"
+        footerClass="place-item__modal-actions"
+        footer={<Button onClick={closeMapHandler}>CLOSE</Button>}
+      >
+        <div className="map-container">
+          <Map center={props.coordinates} zoom={16} />
+        </div>
+      </Modal>
+      <li className="place-item">
+        <Card className="place-item__content">
+          <div className="place-item__image">
+            <img src={props.image} alt={props.title} />
+          </div>
+          <div className="place-item__info">
+            <h2>{props.title}</h2>
+            <h3>{props.address}</h3>
+            <p>{props.description}</p>
+          </div>
+          <div className="place-item__actions">
+            <Button inverse onClick={openMapHandler}>VIEW ON MAP</Button>
+            <Button to={`/places/${props.id}`}>EDIT</Button>
+            <Button danger>DELETE</Button>
+          </div>
+        </Card>
+      </li>
+    </React.Fragment>
+  );
+};
 
-export default PlaceItem
+export default PlaceItem;
