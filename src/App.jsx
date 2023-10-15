@@ -1,7 +1,7 @@
 import { Routes, Route,  } from 'react-router-dom'
 import Users from './users/pages/Users'
 import './App.css'
-import NewPlace from './places/components/NewPlace';
+import NewPlace from './places/pages/NewPlace';
 import UserPlaces from './users/pages/UserPlaces';
 import MainNavigation from './shared/components/UIElements/Navigation/MainNavigation';
 
