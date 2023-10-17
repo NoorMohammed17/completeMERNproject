@@ -2,6 +2,7 @@ import {useParams} from 'react-router-dom'
 import { VALIDATOR_REQUIRE ,VALIDATOR_MINLENGTH} from '../../shared/components/utils/validators';
 import Input from '../../shared/components/FormElements/Input';
 import Button from '../../shared/components/FormElements/Button/Button';
+import "./UpdatePlace.css"
 
 const DUMMY_PLACES = [
   {
@@ -44,7 +45,7 @@ const UpdatePlace= () => {
   }
 
   return (
-    <form>
+    <form className='place-form'>
       <Input
         id='title'
         element='input'
