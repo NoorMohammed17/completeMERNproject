@@ -8,25 +8,24 @@ import './PlaceItem.css';
 
 const PlaceItem = props => {
     const [showMap, setShowMap] = useState(false);
+    const [showConfirmDeleteModal, setShowConfirmDeleteModal] = useState(false);
 
     const openMapHandler = () => setShowMap(true);
 
     const closeMapHandler = () => setShowMap(false);
 
+    const openDeleteWarningHandler = () => setShowConfirmDeleteModal(true)
+    const closeDeleteWarningHandler = () => setShowConfirmDeleteModal(false)
+    const confirmDeleteWarningHandler = () => {
+        setShowConfirmDeleteModal(false)
+        console.log('DELETING......')
+    }
+
+
     return (
         <React.Fragment>
-            {/* <Modal
-        show={showMap}
-        onCancel={closeMapHandler}
-        header={props.address}
-        contentClass="place-item__modal-content"
-        footerClass="place-item__modal-actions"
-        footer={<Button onClick={closeMapHandler}>CLOSE</Button>}
-      >
-        <div className="map-container">
-          <Map center={props.coordinates} zoom={16} />
-        </div>
-      </Modal> */}
+
+            {/* MAP MODAL STARTS */}
             <Modal
                 show={showMap}
                 onCancel={closeMapHandler}
@@ -34,7 +33,6 @@ const PlaceItem = props => {
                 contentClass="place-item__modal-content"
                 footerClass="place-item__modal-actions"
                 footer={<Button onClick={closeMapHandler}>CLOSE</Button>}
-
             >
                 <div className="map-container" >
                     <iframe
@@ -51,9 +49,30 @@ const PlaceItem = props => {
                     >
                     </iframe>
                 </div>
-
-
             </Modal>
+            {/* MAP MODAL ENDS */}
+
+            {/* DELETE MODAL STARTS */}
+
+            <Modal
+                show={showConfirmDeleteModal}
+                onCancel={closeDeleteWarningHandler}
+                header={'Are you sure?'}
+                // contentClass="place-item__modal-content"
+                footerClass="place-item__modal-actions"
+                footer={
+                    <React.Fragment>
+                        <Button inverse onClick={closeDeleteWarningHandler}>CANCEL</Button>
+                        <Button danger onClick={confirmDeleteWarningHandler}>DELETE</Button>
+                    </React.Fragment>
+
+                }
+            >
+               <p>
+                Do you want to proceed and delete this place? Please note that it cannot be undone thereafter.
+               </p>
+            </Modal>
+            {/* DELETE MODAL ENDS */}
 
             <li className="place-item">
                 <Card className="place-item__content">
@@ -68,7 +87,7 @@ const PlaceItem = props => {
                     <div className="place-item__actions">
                         <Button inverse onClick={openMapHandler}>VIEW ON MAP</Button>
                         <Button to={`/places/${props.id}`}>EDIT</Button>
-                        <Button danger>DELETE</Button>
+                        <Button danger onClick={openDeleteWarningHandler}>DELETE</Button>
                     </div>
                 </Card>
             </li>
@@ -77,3 +96,17 @@ const PlaceItem = props => {
 };
 
 export default PlaceItem;
+
+//code for Modal as per the instructor
+{/* <Modal
+        show={showMap}
+        onCancel={closeMapHandler}
+        header={props.address}
+        contentClass="place-item__modal-content"
+        footerClass="place-item__modal-actions"
+        footer={<Button onClick={closeMapHandler}>CLOSE</Button>}
+      >
+        <div className="map-container">
+          <Map center={props.coordinates} zoom={16} />
+        </div>
+      </Modal> */}

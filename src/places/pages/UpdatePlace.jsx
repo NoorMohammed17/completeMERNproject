@@ -1,9 +1,12 @@
-import { useParams } from 'react-router-dom'
+import { useParams,  } from 'react-router-dom'
+import { useEffect,useState } from 'react';
 import { VALIDATOR_REQUIRE, VALIDATOR_MINLENGTH } from '../../shared/components/utils/validators';
 import Input from '../../shared/components/FormElements/Input';
 import Button from '../../shared/components/FormElements/Button/Button';
+import Card from '../../shared/components/UIElements/Card/Card';
 import { useForm } from '../../shared/components/hooks/form-hook';
 import "./UpdatePlace.css"
+
 
 const DUMMY_PLACES = [
   {
@@ -34,19 +37,40 @@ const DUMMY_PLACES = [
 
 const UpdatePlace = () => {
   const placeId = useParams().placeId // it should be same as you mentioned in the dynamic route
-  const identifiedPlace = DUMMY_PLACES.find(p => p.id === placeId);
+  const [isLoading, setIsLoading] = useState(true);
   //console.log(identifiedPlace, placeId)
-  const [formState, inputHandler] = useForm(
+  const [formState, inputHandler, setFormData] = useForm(
     {
-    title: {
-      value: identifiedPlace.title,
-      isValid: true,
-    },
-    description: {
-      value: identifiedPlace.description,
-      isValid: true,
+      title: {
+        value: '',
+        isValid: false,
+      },
+      description: {
+        value: '',
+        isValid: false,
+      }
+    }, false)
+
+  const identifiedPlace = DUMMY_PLACES.find(p => p.id === placeId);
+
+  useEffect(() => {
+    if (identifiedPlace) {
+      setFormData(
+        {
+          title: {
+            value: identifiedPlace.title,
+            isValid: true,
+          },
+          description: {
+            value: identifiedPlace.description,
+            isValid: true,
+          }
+        }, true);
     }
-  },true)
+    setIsLoading(false)
+
+  }, [setFormData, identifiedPlace])
+
 
   const updatePlaceSubmitHandler = (e) => {
     e.preventDefault();
@@ -55,43 +79,53 @@ const UpdatePlace = () => {
 
 
 
-if (!identifiedPlace) {
+  if (!identifiedPlace) {
+    return (
+      <div className="center">
+        <Card> <h2>Could not find place!</h2></Card>
+
+      </div>
+    )
+  }
+
+  if (isLoading) {
+    return (
+      <div className="loading">
+        <h2>Loading...</h2>
+
+      </div>
+    )
+  }
+
   return (
-    <div className="center">
-      <h2>Could not find place!</h2>
-    </div>
+    <form className='place-form' onSubmit={updatePlaceSubmitHandler}>
+      <Input
+        id='title'
+        element='input'
+        type='text'
+        label='Title'
+        validators={[VALIDATOR_REQUIRE()]}
+        errorText='Please enter a valid title.'
+        onInput={inputHandler}
+        initialValue={formState.inputs.title.value}
+        initialValid={formState.inputs.title.isValid}
+      />
+
+      <Input
+        id='description'
+        element='textarea'
+        type='text'
+        label='Description'
+        validators={[VALIDATOR_MINLENGTH(5)]}
+        errorText='Please enter a valid description ( Please enter atleast 5 characters).'
+        onInput={inputHandler}
+        initialValue={formState.inputs.description.value}
+        initialValid={formState.inputs.description.isValid}
+      />
+      <Button type='submit' disabled={!formState.isFormValid}>UPDATED PLACE</Button>
+
+    </form>
   )
-}
-
-return (
-  <form className='place-form' onSubmit={updatePlaceSubmitHandler}>
-    <Input
-      id='title'
-      element='input'
-      type='text'
-      label='Title'
-      validators={[VALIDATOR_REQUIRE()]}
-      errorText='Please enter a valid title.'
-      onInput={inputHandler}
-      initialValue={formState.inputs.title.value}
-      initialValid={formState.inputs.title.isValid}
-    />
-
-    <Input
-      id='description'
-      element='textarea'
-      type='text'
-      label='Description'
-      validators={[VALIDATOR_MINLENGTH(5)]}
-      errorText='Please enter a valid description ( Please enter atleast 5 characters).'
-      onInput={inputHandler}
-      initialValue={formState.inputs.description.value}
-      initialValid={formState.inputs.description.isValid}
-    />
-    <Button type='submit' disabled={!formState.isFormValid}>UPDATED PLACE</Button>
-
-  </form>
-)
 }
 
 export default UpdatePlace
