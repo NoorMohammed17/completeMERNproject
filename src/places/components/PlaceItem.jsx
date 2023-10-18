@@ -21,7 +21,6 @@ const PlaceItem = props => {
         console.log('DELETING......')
     }
 
-
     return (
         <React.Fragment>
 
@@ -53,7 +52,6 @@ const PlaceItem = props => {
             {/* MAP MODAL ENDS */}
 
             {/* DELETE MODAL STARTS */}
-
             <Modal
                 show={showConfirmDeleteModal}
                 onCancel={closeDeleteWarningHandler}
@@ -65,7 +63,6 @@ const PlaceItem = props => {
                         <Button inverse onClick={closeDeleteWarningHandler}>CANCEL</Button>
                         <Button danger onClick={confirmDeleteWarningHandler}>DELETE</Button>
                     </React.Fragment>
-
                 }
             >
                <p>
